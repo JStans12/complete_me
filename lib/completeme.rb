@@ -3,17 +3,12 @@ require_relative 'node.rb'
 class Trie
   attr_reader :root ,:current_node
 
-  def initialize(root = nil)
+  def initialize(root = Node.new(is_word = false))
     @root = root
   end
 
 
   def insert(word, current_node = @root, is_word = false)
-
-    #if the root is nil, initialize it
-    if @root == nil
-      initialze_root
-    end
 
     # create an array of letters and insert each one individually
     letters = word.split
@@ -36,10 +31,6 @@ class Trie
 
     end
 
-  end
-
-  def initialze_root
-    @root = Node.new(is_word = false)
   end
 
 end # end Trie class
