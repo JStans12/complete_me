@@ -24,10 +24,17 @@ class Trie
         is_word = true
       end
 
+      if !current_node.instance_variable_get("@#{letter}").nil?
+
+        if is_word
+          current_node.instance_variable_get("@#{letter}").instance_variable_set("@#{is_word}", true)
+        end
+
+      end
       # if link == nil, initialize_link
       # else view link
       # should be current_node, not root ******
-      root.instance_variable_set("@#{letter}", Node.new(is_word))
+      current_node.instance_variable_set("@#{letter}", Node.new(is_word))
 
     end
 
