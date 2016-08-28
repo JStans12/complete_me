@@ -1,4 +1,5 @@
 require_relative 'node.rb'
+require 'pry'
 
 class Trie
   attr_reader :root ,:current_node
@@ -49,7 +50,6 @@ class Trie
     links.map! do |x|
       x.to_s.delete!("@")
     end
-
     links.shift
     links.sort
 
@@ -57,6 +57,20 @@ class Trie
 
   # accept node argument return all possible words
   def possible_words(word)
+
+
+
+  end
+
+  def populate(input_list)
+    words_to_load = input_list.split("\n")
+    words_to_load.each do |word|
+      insert(word)
+    end
+  end
+
+  def count(current_node = @root)
+
 
 
 

@@ -2,6 +2,7 @@ require './lib/completeme.rb'
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
+require 'CSV'
 
 class TestCompleteMe < Minitest::Test
 
@@ -28,15 +29,15 @@ class TestCompleteMe < Minitest::Test
 
   def test_a_handful_of_words
     trie = Trie.new
-    trie.insert("catapalt")
-    trie.insert("caterpiller")
+    trie.insert("catapult")
+    trie.insert("caterpillar")
     trie.insert("cat")
     trie.insert("a")
     trie.insert("ardvark")
     trie.insert("ark")
 
-    assert_equal Node, trie.root.c.a.t.e.r.p.i.l.l.e.r.class
-    assert trie.root.c.a.t.e.r.p.i.l.l.e.r.is_word
+    assert_equal Node, trie.root.c.a.t.e.r.p.i.l.l.a.r.class
+    assert trie.root.c.a.t.e.r.p.i.l.l.a.r.is_word
     assert trie.root.c.a.t.is_word
     refute trie.root.c.is_word
     refute trie.root.c.is_word
@@ -48,8 +49,8 @@ class TestCompleteMe < Minitest::Test
 
   def test_node_links
     trie = Trie.new
-    trie.insert("catapalt")
-    trie.insert("caterpiller")
+    trie.insert("catapult")
+    trie.insert("caterpillar")
     trie.insert("cat")
     trie.insert("a")
     trie.insert("ardvark")
@@ -58,6 +59,19 @@ class TestCompleteMe < Minitest::Test
     assert_equal trie.node_links(trie.root), ["a", "c"]
     assert_equal trie.node_links(trie.root.c.a.t), ["a", "e"]
     assert_equal trie.node_links(trie.root.a.r), ["d", "k"]
+  end
+
+  def test_inserting_words_from_file_path
+    trie = Trie.new
+    #dictionary = File.read("/usr/share/dict/words") test later
+    dictionary = File.read("./test/test_words.txt")
+
+    trie.populate(dictionary)
+    assert_equal Node, trie.root.a.a.l.i.i.class
+    assert trie.root.a.is_word
+    assert trie.root.a.a.m.is_word
+    refute trie.root.a.a.r.d.w.is_word
+
   end
 
 end
