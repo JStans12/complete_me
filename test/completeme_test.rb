@@ -71,7 +71,44 @@ class TestCompleteMe < Minitest::Test
     assert trie.root.a.is_word
     assert trie.root.a.a.m.is_word
     refute trie.root.a.a.r.d.w.is_word
+    assert trie.root.a.a.r.o.n.is_word
+  end
 
+  def test_load_full_dictionary
+    trie = Trie.new
+    dictionary = File.read("/usr/share/dict/words")
+    trie.populate(dictionary)
+
+    assert trie.root.a.b.d.o.m.i.n.o.h.y.s.t.e.r.e.c.t.o.m.y.is_word
+    refute trie.root.a.b.d.o.m.i.n.o.h.y.s.t.e.r.e.c.t.o.m.is_word
+    assert trie.root.g.l.o.u.c.e.s.t.e.r.is_word # starts with cap G in dict
+    assert trie.root.j.e.a.n.p.i.e.r.r.e.is_word # Jean-Pierre in dict
+    assert trie.root.z.y.m.o.m.e.is_word
+    refute trie.root.z.y.m.o.m.e.t.is_word
+    assert trie.root.z.y.m.o.m.e.t.e.r.is_word
+  end
+
+  def test_count_of_one
+    trie = Trie.new
+    trie.insert("a")
+
+    assert_equal 1, trie.count
+  end
+
+  def test_count_test_file
+    trie = Trie.new
+    dictionary = File.read("./test/test_words.txt")
+    trie.populate(dictionary)
+
+    assert_equal 9, trie.count
+  end
+
+  def test_count_full_dictionary
+    trie = Trie.new
+    dictionary = File.read("/usr/share/dict/words")
+    trie.populate(dictionary)
+
+    assert_equal 234371, trie.count # number of words if downcase
   end
 
 end

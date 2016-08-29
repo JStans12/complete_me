@@ -15,6 +15,9 @@ class Trie
     letters = word.chars
     letters.last << "a"
     letters.each do |letter|
+      letter.downcase!
+
+      next if letter == "-"
 
       # ^ added a letter to the last letter
       # now if the length is 2, we know we're at the end
@@ -69,11 +72,15 @@ class Trie
     end
   end
 
-  def count(current_node = @root)
+  def count(current_node = @root, first_run = true)
+    @count = 0 if first_run
+    @count += 1 if current_node.is_word
 
-
-
-
+    links = node_links(current_node)
+    links.each do |link|
+      count(current_node.instance_variable_get("@#{link}"), false)
+    end
+    @count
   end
 
 end # end Trie class
