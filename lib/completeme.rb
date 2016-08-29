@@ -59,10 +59,24 @@ class Trie
   end
 
   # accept node argument return all possible words
-  def possible_words(word)
+  def suggest(word)
 
+    all_words(find_node(word), word)
 
+  end
 
+  def all_words(current_node, working_word, working_letter = '', first_run = true)
+
+    @suggested_words = [] if first_run
+    working_word << working_letter
+    @suggested_words.push(working_word.dup) if current_node.is_word
+
+      links = node_links(current_node)
+      links.each do |link|
+        all_words(current_node.instance_variable_get("@#{link}"), working_word, link, false)
+      end
+      working_word.chop!
+      @suggested_words
   end
 
   def populate(input_list)
@@ -71,6 +85,7 @@ class Trie
       insert(word)
     end
   end
+
 
   def count(current_node = @root, first_run = true)
     @count = 0 if first_run
@@ -81,6 +96,18 @@ class Trie
       count(current_node.instance_variable_get("@#{link}"), false)
     end
     @count
+  end
+
+  def find_node(word)
+    current_node = @root
+
+    letters = word.chars
+    letters.each do |letter|
+      letter.downcase!
+      return false if current_node.instance_variable_get("@#{letter}").nil?
+      current_node = current_node.instance_variable_get("@#{letter}")
+    end
+    current_node
   end
 
 end # end Trie class

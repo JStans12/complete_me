@@ -111,4 +111,30 @@ class TestCompleteMe < Minitest::Test
     assert_equal 234371, trie.count # number of words if downcase
   end
 
+  def test_find_node
+    trie = Trie.new
+    trie.insert("cat")
+    trie.insert("car")
+    trie.insert("crap")
+
+    assert_equal trie.find_node("ca"), trie.root.c.a
+    refute_equal trie.find_node("ca"), trie.root.c
+    refute trie.find_node("cab")
+  end
+
+  def test_suggested_words_returns_array
+    trie = Trie.new
+    trie.insert("cat")
+    trie.insert("car")
+    trie.insert("cart")
+    trie.insert("carp")
+    trie.insert("crap")
+    trie.insert("coffee")
+    trie.insert("clump")
+
+    expected = ["car", "carp", "cart", "cat"]
+    assert_equal expected, trie.suggest("ca")
+
+  end
+
 end
