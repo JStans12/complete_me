@@ -61,6 +61,7 @@ class Trie
   def suggest(word)
 
     all_words(find_node(word), word)
+    
   end
 
   def all_words(current_node, working_word, working_letter = '', first_run = true)

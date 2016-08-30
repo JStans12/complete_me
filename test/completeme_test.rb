@@ -75,7 +75,6 @@ class TestCompleteMe < Minitest::Test
   end
 
   def test_load_full_dictionary
-    skip
     trie = Trie.new
     dictionary = File.read("/usr/share/dict/words")
     trie.populate(dictionary)
@@ -105,7 +104,6 @@ class TestCompleteMe < Minitest::Test
   end
 
   def test_count_full_dictionary
-    skip
     trie = Trie.new
     dictionary = File.read("/usr/share/dict/words")
     trie.populate(dictionary)
