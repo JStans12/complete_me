@@ -1,8 +1,11 @@
-require './lib/completeme.rb'
+require 'simplecov'
+SimpleCov.start
+
+require './lib/complete_me.rb'
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
-require 'CSV'
+
 
 class TestCompleteMe < Minitest::Test
 
@@ -320,6 +323,51 @@ end
     trie.select("piz", "pizzacato")
     trie.select("piz", "pizzacato")
     expected = ["pizzacato", "pizzeria", "pizza"]
+
+    assert_equal expected, trie.suggest("piz")
+  end
+
+    def test_prune_removes_a_node_with_no_children
+      trie = Trie.new
+      trie.insert("pizza")
+      trie.insert("pie")
+
+      assert_equal Node, trie.root.p.i.e.class
+      assert trie.root.p.i.e.is_word
+
+      trie.delete_word("pie")
+
+      assert_equal NilClass, trie.root.p.i.e.class
+      assert trie.root.p.i.z.z.a.is_word
+    end
+
+    def test_prune_with_dictionary
+      trie = Trie.new
+      dictionary = File.read("/usr/share/dict/words")
+      trie.populate(dictionary)
+
+      trie.delete_word("aardwolf")
+
+      assert_equal NilClass, trie.root.a.a.r.d.w.class
+      assert_equal Node, trie.root.a.a.r.d.v.class
+    end
+
+    def test_suggest_sorts_by_most_weight_multiple_runs
+    trie = Trie.new
+    trie.insert("pizza")
+    trie.insert("pizzeria")
+    trie.insert("pizzacato")
+    trie.insert("pizzanotaword")
+
+    trie.select("piz", "pizzeria")
+    trie.select("piz", "pizzacato")
+    trie.select("piz", "pizzacato")
+    trie.select("piz", "pizzanotaword")
+    trie.select("piz", "pizzanotaword")
+    trie.select("piz", "pizzanotaword")
+    trie.select("piz", "pizzanotaword")
+
+    expected = ["pizzanotaword", "pizzacato", "pizzeria", "pizza"]
 
     assert_equal expected, trie.suggest("piz")
   end
