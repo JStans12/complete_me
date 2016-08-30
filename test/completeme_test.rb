@@ -50,7 +50,7 @@ class TestCompleteMe < Minitest::Test
     assert trie.root.a.is_word
     assert trie.root.a.m.is_word
     end
-    
+
   def test_a_handful_of_words_are_nodes
     trie = Trie.new
     trie.insert("catapult")
@@ -322,7 +322,6 @@ end
     expected = ["pizzacato", "pizzeria", "pizza"]
 
     assert_equal expected, trie.suggest("piz")
-
   end
 
 end # end test class

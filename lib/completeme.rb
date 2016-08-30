@@ -2,12 +2,11 @@ require_relative 'node.rb'
 require 'pry'
 
 class Trie
-  attr_reader :root ,:current_node
+  attr_reader :root
 
   def initialize(root = Node.new(is_word = false))
     @root = root
     @selected_words = []
-    @selected_hash = {}
   end
 
 
@@ -56,22 +55,17 @@ class Trie
     end
     2.times { links.shift }
     links.sort
-
   end
 
   def suggest(word)
 
     all_words(find_node(word), word)
-<<<<<<< HEAD
-    
-=======
+
     sorted_suggestions = @suggested_words.sort do |less, more|
       find_node(more).weight <=> find_node(less).weight #descending order
       # a <=> b return -1 if a before b; 0 if a == b; 1 if a after b
     end
-    #binding.pry
     sorted_suggestions
->>>>>>> 526a47f4537043c44be24f06c18acf6e51ce9fd6
   end
 
   def all_words(current_node, working_word, working_letter = '', first_run = true)
@@ -86,7 +80,6 @@ class Trie
     end
     working_word.chop!
     @suggested_words
-
   end
 
   def populate(input_list)
@@ -125,7 +118,6 @@ class Trie
     current_node.is_word = false
 
     prune(word) if node_links(current_node).empty?
-
   end
 
   def prune(word, current_node = @root, previous_node = '', current_letter = '')
