@@ -75,6 +75,7 @@ class TestCompleteMe < Minitest::Test
   end
 
   def test_load_full_dictionary
+    skip
     trie = Trie.new
     dictionary = File.read("/usr/share/dict/words")
     trie.populate(dictionary)
@@ -104,6 +105,7 @@ class TestCompleteMe < Minitest::Test
   end
 
   def test_count_full_dictionary
+    skip
     trie = Trie.new
     dictionary = File.read("/usr/share/dict/words")
     trie.populate(dictionary)
@@ -134,7 +136,47 @@ class TestCompleteMe < Minitest::Test
 
     expected = ["car", "carp", "cart", "cat"]
     assert_equal expected, trie.suggest("ca")
+  end
+
+  def test_delete_word
+    trie = Trie.new
+    trie.insert("a")
+    assert trie.root.a.is_word
+    trie.delete_word("a")
+    refute trie.root.a
+  end
+
+  def test_delete_more_words
+    trie = Trie.new
+    trie.insert("cat")
+    trie.insert("car")
+    trie.insert("cart")
+    trie.insert("carp")
+    trie.insert("crap")
+    trie.insert("coffee")
+    trie.insert("clump")
+    trie.delete_word("car")
+
+    refute trie.root.c.a.r.is_word
+    assert trie.root.c.a.r.t.is_word
+  end
+
+  def test_some_different_delete_cases
+    trie = Trie.new
+    trie.insert("cat")
+    trie.insert("car")
+    trie.insert("cart")
+    trie.insert("cartography")
+    trie.delete_word("cartography")
+
+    assert trie.root.c.a.r.t.is_word
+    refute trie.root.c.a.r.t.o
+  end
+
+  def test_does_this_delete_really_work
+
+
 
   end
 
-end
+end # end test class

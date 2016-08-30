@@ -58,11 +58,9 @@ class Trie
 
   end
 
-  # accept node argument return all possible words
   def suggest(word)
 
     all_words(find_node(word), word)
-
   end
 
   def all_words(current_node, working_word, working_letter = '', first_run = true)
@@ -86,7 +84,6 @@ class Trie
     end
   end
 
-
   def count(current_node = @root, first_run = true)
     @count = 0 if first_run
     @count += 1 if current_node.is_word
@@ -108,6 +105,24 @@ class Trie
       current_node = current_node.instance_variable_get("@#{letter}")
     end
     current_node
+  end
+
+  def delete_word(word)
+
+    current_node = find_node(word)
+    current_node.is_word = false
+
+    prune(word) if node_links(current_node).empty?
+
+  end
+
+  def prune(word, current_node = @root, previous_node = '', current_letter = '')
+
+    prune(word, current_node.instance_variable_get("@#{word[0]}"), current_node, word.slice!(0)) unless word.empty?
+
+    if current_node != @root && node_links(current_node).empty? && current_node.is_word == false
+      previous_node.remove_instance_variable("@#{current_letter}")
+    end
   end
 
 end # end Trie class
