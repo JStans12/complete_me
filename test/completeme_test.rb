@@ -233,10 +233,58 @@ end
     refute trie.root.c.a.r.t.o
   end
 
+  def test_does_this_delete_work_with_full_dictionary
+    trie = Trie.new
+    dictionary = File.read("/usr/share/dict/words")
+    trie.populate(dictionary)
+
+    trie.delete_word("a")
+
+    refute trie.root.a.is_word
+  end
+
   def test_does_this_delete_really_work
+    trie = Trie.new
+    dictionary = File.read("/usr/share/dict/words")
+    trie.populate(dictionary)
 
+    trie.delete_word("a")
+    trie.delete_word("busy")
+    trie.delete_word("care")
+    trie.delete_word("dog")
+    trie.delete_word("man")
+    trie.delete_word("bear")
+    trie.delete_word("pig")
+    trie.delete_word("tree")
+    trie.delete_word("use")
+    trie.delete_word("zip")
 
+    refute trie.root.a.is_word
+    refute trie.root.b.u.s.y.is_word
+    refute trie.root.c.a.r.e.is_word
+    refute trie.root.d.o.g.is_word
+    refute trie.root.m.a.n.is_word
+    refute trie.root.b.e.a.r.is_word
+    refute trie.root.p.i.g.is_word
+    refute trie.root.t.r.e.e.is_word
+    refute trie.root.u.s.e.is_word
+    refute trie.root.z.i.p.is_word
 
+  end
+
+  def test_delete_some_words_and_other_words_are_still_words
+    trie = Trie.new
+    dictionary = File.read("/usr/share/dict/words")
+    trie.populate(dictionary)
+
+    trie.delete_word("be")
+    trie.delete_word("can")
+
+    refute trie.root.b.e.is_word
+    refute trie.root.c.a.n.is_word
+
+    assert trie.root.a.is_word
+    assert trie.root.b.e.t.is_word
   end
 
 end # end test class
