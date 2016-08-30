@@ -287,4 +287,31 @@ end
     assert trie.root.b.e.t.is_word
   end
 
+  def test_suggest_sorts_by_weight_one_run
+    trie = Trie.new
+    trie.insert("pizza")
+    trie.insert("pizzeria")
+    trie.insert("pizzacato")
+
+    trie.select("piz", "pizzeria")
+    expected = ["pizzeria", "pizza", "pizzacato"]
+
+    assert_equal expected, trie.suggest("piz")
+  end
+
+  def test_suggest_sorts_by_weight_multiple_runs
+    trie = Trie.new
+    trie.insert("pizza")
+    trie.insert("pizzeria")
+    trie.insert("pizzacato")
+
+    trie.select("piz", "pizzeria")
+    trie.select("piz", "pizzacato")
+    trie.select("piz", "pizzacato")
+    expected = ["pizzacato", "pizzeria", "pizza"]
+
+    assert_equal expected, trie.suggest("piz")
+
+  end
+
 end # end test class
