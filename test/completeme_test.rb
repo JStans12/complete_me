@@ -6,28 +6,51 @@ require 'CSV'
 
 class TestCompleteMe < Minitest::Test
 
+  def test_root_is_node_class
+    trie = Trie.new
+
+    assert_equal Node, trie.root.class
+  end
+
+  def test_root_is_not_a_word
+    trie = Trie.new
+
+    refute trie.root.is_word
+  end
+
   def test_insert_the_word_a_root_is_node
     trie = Trie.new
     trie.insert("a")
 
     assert_equal Node, trie.root.a.class
-    refute trie.root.is_word
+  end
+
+  def test_a_is_a_word
+    trie = Trie.new
+    trie.insert("a")
+
     assert trie.root.a.is_word
   end
 
-  def test_insert_two_words_with_same_letters_longest_first
+  def test_insert_two_words_with_same_letters_longest_first_are_nodes
     trie = Trie.new
     trie.insert("am")
     trie.insert("a")
 
     assert_equal Node, trie.root.a.class
     assert_equal Node, trie.root.a.m.class
-    assert trie.root.a.is_word
-    assert trie.root.a.m.is_word
     refute trie.root.m
   end
 
-  def test_a_handful_of_words
+  def test_insert_two_words_with_same_letters_longest_first_are_words
+    trie = Trie.new
+    trie.insert("am")
+    trie.insert("a")
+
+    assert trie.root.a.is_word
+    assert trie.root.a.m.is_word
+    end
+  def test_a_handful_of_words_are_nodes
     trie = Trie.new
     trie.insert("catapult")
     trie.insert("caterpillar")
@@ -36,16 +59,31 @@ class TestCompleteMe < Minitest::Test
     trie.insert("ardvark")
     trie.insert("ark")
 
+    assert_equal Node, trie.root.c.a.t.a.p.u.l.t.class
     assert_equal Node, trie.root.c.a.t.e.r.p.i.l.l.a.r.class
-    assert trie.root.c.a.t.e.r.p.i.l.l.a.r.is_word
-    assert trie.root.c.a.t.is_word
-    refute trie.root.c.is_word
-    refute trie.root.c.is_word
-
-    assert trie.root.a.is_word
-    assert trie.root.a.r.k.is_word
-    refute trie.root.a.r.is_word
+    assert_equal Node, trie.root.c.a.t.class
+    assert_equal Node, trie.root.a.class
+    assert_equal Node, trie.root.a.r.d.v.a.r.k.class
+    assert_equal Node, trie.root.a.r.k.class
   end
+
+def test_a_handful_of_words_are_words
+  trie = Trie.new
+  trie.insert("catapult")
+  trie.insert("caterpillar")
+  trie.insert("cat")
+  trie.insert("a")
+  trie.insert("ardvark")
+  trie.insert("ark")
+
+  assert trie.root.c.a.t.e.r.p.i.l.l.a.r.is_word
+  assert trie.root.c.a.t.e.r.p.i.l.l.a.r.is_word
+  assert trie.root.c.a.t.is_word
+  assert trie.root.a.is_word
+  assert trie.root.a.r.k.is_word
+  refute trie.root.a.r.is_word
+end
+
 
   def test_node_links
     trie = Trie.new
@@ -61,21 +99,43 @@ class TestCompleteMe < Minitest::Test
     assert_equal trie.node_links(trie.root.a.r), ["d", "k"]
   end
 
-  def test_inserting_words_from_file_path
+  def test_inserting_words_from_file_path_are_nodes
+    trie = Trie.new
+      dictionary = File.read("./test/test_words.txt")
+
+      trie.populate(dictionary)
+      assert_equal Node, trie.root.a.a.class
+      assert_equal Node, trie.root.a.a.l.i.i.class
+      assert_equal Node, trie.root.a.a.r.d.v.a.r.k.class
+      assert_equal Node, trie.root.a.a.r.d.w.o.l.f.class
+  end
+
+  def test_inserting_words_from_file_path_are_words
     trie = Trie.new
     #dictionary = File.read("/usr/share/dict/words") test later
     dictionary = File.read("./test/test_words.txt")
 
     trie.populate(dictionary)
-    assert_equal Node, trie.root.a.a.l.i.i.class
     assert trie.root.a.is_word
     assert trie.root.a.a.m.is_word
     refute trie.root.a.a.r.d.w.is_word
     assert trie.root.a.a.r.o.n.is_word
   end
 
-  def test_load_full_dictionary
-    skip
+  def test_load_full_dictionary_are_nodes
+    trie = Trie.new
+    dictionary = File.read("/usr/share/dict/words")
+    trie.populate(dictionary)
+
+    assert_equal Node, trie.root.a.b.d.o.m.i.n.o.h.y.s.t.e.r.e.c.t.o.m.y.class
+    assert_equal Node, trie.root.g.l.o.u.c.e.s.t.e.r.class # starts with cap G in dict
+    assert_equal Node, trie.root.j.e.a.n.p.i.e.r.r.e.class # Jean-Pierre in dict
+    assert_equal Node, trie.root.z.y.m.o.m.e.class
+    assert_equal Node, trie.root.z.y.m.o.m.e.t.e.r.class
+  end
+
+  def test_load_full_dictionary_are_words
+
     trie = Trie.new
     dictionary = File.read("/usr/share/dict/words")
     trie.populate(dictionary)
@@ -105,7 +165,7 @@ class TestCompleteMe < Minitest::Test
   end
 
   def test_count_full_dictionary
-    skip
+
     trie = Trie.new
     dictionary = File.read("/usr/share/dict/words")
     trie.populate(dictionary)
