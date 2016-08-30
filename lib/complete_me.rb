@@ -1,7 +1,7 @@
 require_relative 'node.rb'
 require 'pry'
 
-class Trie
+class CompleteMe
   attr_reader :root
 
   def initialize(root = Node.new(is_word = false))

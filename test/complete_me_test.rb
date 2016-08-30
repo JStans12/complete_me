@@ -10,33 +10,33 @@ require 'pry'
 class TestCompleteMe < Minitest::Test
 
   def test_root_is_node_class
-    trie = Trie.new
+    trie = CompleteMe.new
 
     assert_equal Node, trie.root.class
   end
 
   def test_root_is_not_a_word
-    trie = Trie.new
+    trie = CompleteMe.new
 
     refute trie.root.is_word
   end
 
   def test_insert_the_word_a_root_is_node
-    trie = Trie.new
+    trie = CompleteMe.new
     trie.insert("a")
 
     assert_equal Node, trie.root.a.class
   end
 
   def test_a_is_a_word
-    trie = Trie.new
+    trie = CompleteMe.new
     trie.insert("a")
 
     assert trie.root.a.is_word
   end
 
   def test_insert_two_words_with_same_letters_longest_first_are_nodes
-    trie = Trie.new
+    trie = CompleteMe.new
     trie.insert("am")
     trie.insert("a")
 
@@ -46,7 +46,7 @@ class TestCompleteMe < Minitest::Test
   end
 
   def test_insert_two_words_with_same_letters_longest_first_are_words
-    trie = Trie.new
+    trie = CompleteMe.new
     trie.insert("am")
     trie.insert("a")
 
@@ -55,7 +55,7 @@ class TestCompleteMe < Minitest::Test
     end
 
   def test_a_handful_of_words_are_nodes
-    trie = Trie.new
+    trie = CompleteMe.new
     trie.insert("catapult")
     trie.insert("caterpillar")
     trie.insert("cat")
@@ -72,7 +72,7 @@ class TestCompleteMe < Minitest::Test
   end
 
 def test_a_handful_of_words_are_words
-  trie = Trie.new
+  trie = CompleteMe.new
   trie.insert("catapult")
   trie.insert("caterpillar")
   trie.insert("cat")
@@ -90,7 +90,7 @@ end
 
 
   def test_node_links
-    trie = Trie.new
+    trie = CompleteMe.new
     trie.insert("catapult")
     trie.insert("caterpillar")
     trie.insert("cat")
@@ -104,7 +104,7 @@ end
   end
 
   def test_inserting_words_from_file_path_are_nodes
-    trie = Trie.new
+    trie = CompleteMe.new
       dictionary = File.read("./test/test_words.txt")
 
       trie.populate(dictionary)
@@ -115,7 +115,7 @@ end
   end
 
   def test_inserting_words_from_file_path_are_words
-    trie = Trie.new
+    trie = CompleteMe.new
     #dictionary = File.read("/usr/share/dict/words") test later
     dictionary = File.read("./test/test_words.txt")
 
@@ -127,7 +127,7 @@ end
   end
 
   def test_load_full_dictionary_are_nodes
-    trie = Trie.new
+    trie = CompleteMe.new
     dictionary = File.read("/usr/share/dict/words")
     trie.populate(dictionary)
 
@@ -140,7 +140,7 @@ end
 
   def test_load_full_dictionary_are_words
 
-    trie = Trie.new
+    trie = CompleteMe.new
     dictionary = File.read("/usr/share/dict/words")
     trie.populate(dictionary)
 
@@ -154,14 +154,14 @@ end
   end
 
   def test_count_of_one
-    trie = Trie.new
+    trie = CompleteMe.new
     trie.insert("a")
 
     assert_equal 1, trie.count
   end
 
   def test_count_test_file
-    trie = Trie.new
+    trie = CompleteMe.new
     dictionary = File.read("./test/test_words.txt")
     trie.populate(dictionary)
 
@@ -169,7 +169,7 @@ end
   end
 
   def test_count_full_dictionary
-    trie = Trie.new
+    trie = CompleteMe.new
     dictionary = File.read("/usr/share/dict/words")
     trie.populate(dictionary)
 
@@ -177,7 +177,7 @@ end
   end
 
   def test_find_node
-    trie = Trie.new
+    trie = CompleteMe.new
     trie.insert("cat")
     trie.insert("car")
     trie.insert("crap")
@@ -188,7 +188,7 @@ end
   end
 
   def test_suggested_words_returns_array
-    trie = Trie.new
+    trie = CompleteMe.new
     trie.insert("cat")
     trie.insert("car")
     trie.insert("cart")
@@ -202,7 +202,7 @@ end
   end
 
   def test_delete_word
-    trie = Trie.new
+    trie = CompleteMe.new
     trie.insert("a")
     assert trie.root.a.is_word
     trie.delete_word("a")
@@ -210,7 +210,7 @@ end
   end
 
   def test_delete_more_words
-    trie = Trie.new
+    trie = CompleteMe.new
     trie.insert("cat")
     trie.insert("car")
     trie.insert("cart")
@@ -225,7 +225,7 @@ end
   end
 
   def test_some_different_delete_cases
-    trie = Trie.new
+    trie = CompleteMe.new
     trie.insert("cat")
     trie.insert("car")
     trie.insert("cart")
@@ -237,7 +237,7 @@ end
   end
 
   def test_does_this_delete_work_with_full_dictionary
-    trie = Trie.new
+    trie = CompleteMe.new
     dictionary = File.read("/usr/share/dict/words")
     trie.populate(dictionary)
 
@@ -247,7 +247,7 @@ end
   end
 
   def test_does_this_delete_really_work
-    trie = Trie.new
+    trie = CompleteMe.new
     dictionary = File.read("/usr/share/dict/words")
     trie.populate(dictionary)
 
@@ -276,7 +276,7 @@ end
   end
 
   def test_delete_some_words_and_other_words_are_still_words
-    trie = Trie.new
+    trie = CompleteMe.new
     dictionary = File.read("/usr/share/dict/words")
     trie.populate(dictionary)
 
@@ -291,7 +291,7 @@ end
   end
 
   def test_select_adds_weight_to_node
-    trie = Trie.new
+    trie = CompleteMe.new
     trie.insert("cat")
     trie.insert("car")
     trie.insert("cart")
@@ -302,7 +302,7 @@ end
   end
 
   def test_suggest_sorts_by_weight_one_run
-    trie = Trie.new
+    trie = CompleteMe.new
     trie.insert("pizza")
     trie.insert("pizzeria")
     trie.insert("pizzacato")
@@ -314,7 +314,7 @@ end
   end
 
   def test_suggest_sorts_by_weight_multiple_runs
-    trie = Trie.new
+    trie = CompleteMe.new
     trie.insert("pizza")
     trie.insert("pizzeria")
     trie.insert("pizzacato")
@@ -328,7 +328,7 @@ end
   end
 
     def test_prune_removes_a_node_with_no_children
-      trie = Trie.new
+      trie = CompleteMe.new
       trie.insert("pizza")
       trie.insert("pie")
 
@@ -342,7 +342,7 @@ end
     end
 
     def test_prune_with_dictionary
-      trie = Trie.new
+      trie = CompleteMe.new
       dictionary = File.read("/usr/share/dict/words")
       trie.populate(dictionary)
 
@@ -353,7 +353,7 @@ end
     end
 
     def test_suggest_sorts_by_most_weight_multiple_runs
-    trie = Trie.new
+    trie = CompleteMe.new
     trie.insert("pizza")
     trie.insert("pizzeria")
     trie.insert("pizzacato")
