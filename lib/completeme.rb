@@ -6,6 +6,8 @@ class Trie
 
   def initialize(root = Node.new(is_word = false))
     @root = root
+    @selected_words = []
+    @selected_hash = {}
   end
 
 
@@ -48,12 +50,11 @@ class Trie
 
   # accept node argument return an array of it's methods minus :is_word
   def node_links(current_node)
-
     links = current_node.instance_variables
     links.map! do |x|
       x.to_s.delete!("@")
     end
-    links.shift
+    2.times { links.shift }
     links.sort
 
   end
@@ -61,7 +62,16 @@ class Trie
   def suggest(word)
 
     all_words(find_node(word), word)
+<<<<<<< HEAD
     
+=======
+    sorted_suggestions = @suggested_words.sort do |less, more|
+      find_node(more).weight <=> find_node(less).weight #descending order
+      # a <=> b return -1 if a before b; 0 if a == b; 1 if a after b
+    end
+    #binding.pry
+    sorted_suggestions
+>>>>>>> 526a47f4537043c44be24f06c18acf6e51ce9fd6
   end
 
   def all_words(current_node, working_word, working_letter = '', first_run = true)
@@ -70,12 +80,13 @@ class Trie
     working_word << working_letter
     @suggested_words.push(working_word.dup) if current_node.is_word
 
-      links = node_links(current_node)
-      links.each do |link|
-        all_words(current_node.instance_variable_get("@#{link}"), working_word, link, false)
-      end
-      working_word.chop!
-      @suggested_words
+    links = node_links(current_node)
+    links.each do |link|
+      all_words(current_node.instance_variable_get("@#{link}"), working_word, link, false)
+    end
+    working_word.chop!
+    @suggested_words
+
   end
 
   def populate(input_list)
@@ -124,6 +135,11 @@ class Trie
     if current_node != @root && node_links(current_node).empty? && current_node.is_word == false
       previous_node.remove_instance_variable("@#{current_letter}")
     end
+  end
+
+  def select(phrase, selected_word)
+    selected_node = find_node(selected_word)
+    selected_node.weight += 1
   end
 
 end # end Trie class
