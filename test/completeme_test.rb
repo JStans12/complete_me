@@ -287,6 +287,17 @@ end
     assert trie.root.b.e.t.is_word
   end
 
+  def test_select_adds_weight_to_node
+    trie = Trie.new
+    trie.insert("cat")
+    trie.insert("car")
+    trie.insert("cart")
+
+    trie.select("ca", "cat")
+
+    assert_equal 1, trie.root.c.a.t.weight
+  end
+
   def test_suggest_sorts_by_weight_one_run
     trie = Trie.new
     trie.insert("pizza")
