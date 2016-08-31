@@ -11,9 +11,21 @@ Shoes.app do
          strokewidth: 6)
 
   stack(margin: 10) do
-    @phrase = para "Enter word phrase: "
+    @load_dictionary = button("Load dictionary") do
+      trie.populate(dictionary)
+    end
 
-    #suggest button
+    #insert
+    insert_phrase = para "Enter word to insert: "
+    flow do
+      @insert_word_line = edit_line
+      @insert_button = button("Insert") do
+        trie.insert(@insert_word_line.text)
+      end
+    end
+
+    #suggest
+    suggest_phrase = para "Enter word phrase: "
     flow do
       @suggest_phrase_line = edit_line do |e|
         @copy_box.text = @suggest_phrase_line.text
@@ -21,37 +33,36 @@ Shoes.app do
 
       @suggest_button = button("suggest") do
         suggested_results = trie.suggest(@suggest_phrase_line.text).join(", ")
-        # suggested_results.each do |word|
-        #   stack(margin: 10) do
-        #     para "#{word}"
-        #   end
-        # end
         @copy_box.text = suggested_results
-        #@copy_box.text = clicked_results
       end
     end
 
-    #select button
-    stack do
+    #select
       #title
       flow do
-        @select_phrase = para "Phrase"
-        para = " "
-        @select_word = para "Selected word"
+        select_phrase = para("Phrase:")
+        select_word = para("Selected word:")
       end
       #edit boxes
       flow do
-        @select_phrase_line= edit_line :width => 50
-        para = " "
+        @select_phrase_line = edit_line :width => 60
         @select_word_line = edit_line :width => 150
         #button
-        @select_button = button("select") do
+        select_button = button("select") do
           trie.select(@select_phrase_line.text, @select_word_line.text)
         end
       end
+
+    #delete button
+    delete_phrase = para "Enter word to delete:"
+    flow do
+      @delete_word_line = edit_line
+      delete_button = button("delete") do
+        trie.delete(@delete_word_line.text)
+      end
     end
 
-    @phrase2 = para "Auto-complete suggestions: "
-    @copy_box = para "Test"
+    suggestions = para "Auto-complete suggestions: "
+    @copy_box = para ""
   end
 end

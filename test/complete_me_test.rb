@@ -288,6 +288,7 @@ end
 
     assert trie.root.a.is_word
     assert trie.root.b.e.t.is_word
+    
   end
 
   def test_select_adds_weight_to_node
