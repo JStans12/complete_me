@@ -5,13 +5,10 @@ class CompleteMe
 
   def initialize(root = Node.new(is_word = false))
     @root = root
-    @selected_words = []
   end
-
 
   def insert(word, current_node = @root, is_word = false)
 
-    # create an array of letters and insert each one individually
     letters = word.chars
     letters.last << "a"
     letters.each do |letter|
@@ -19,34 +16,27 @@ class CompleteMe
 
       next if letter == "-"
 
-      # ^ added a letter to the last letter
-      # now if the length is 2, we know we're at the end
-      # chop! that sucker off and set is_word to true
       if letter.length == 2
         letter.chop!
         is_word = true
       end
 
-      # if the link exists
       if current_node.instance_variable_get("@#{letter}") != nil
 
-        # if it's the last letter, set next node as a word
         if is_word
           current_node.instance_variable_get("@#{letter}").is_word = true
         end
 
-      else # if the link does not exist, initialize it
+      else
         current_node.instance_variable_set("@#{letter}", Node.new(is_word))
       end
 
-      # if it's not the end, look at the next node
       if is_word == false
         current_node = current_node.instance_variable_get("@#{letter}")
       end
     end
   end
 
-  # accept node argument return an array of it's methods minus :is_word
   def node_links(current_node)
     links = current_node.instance_variables
     links.map! do |x|
@@ -59,10 +49,8 @@ class CompleteMe
   def suggest(word)
 
     all_words(find_node(word), word)
-
     sorted_suggestions = @suggested_words.sort do |less, more|
-      find_node(more).weight <=> find_node(less).weight #descending order
-      # a <=> b return -1 if a before b; 0 if a == b; 1 if a after b
+      find_node(more).weight <=> find_node(less).weight
     end
     sorted_suggestions
   end
@@ -133,4 +121,4 @@ class CompleteMe
     selected_node.weight += 1
   end
 
-end # end Trie class
+end

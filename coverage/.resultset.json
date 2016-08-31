@@ -1,8 +1,7 @@
 {
   "Unit Tests": {
     "coverage": {
-      "/Users/brettrivers/turing/1module/completeme/lib/complete_me.rb": [
-        1,
+      "/Users/brettrivers/turing/1module/complete_me/lib/complete_me.rb": [
         1,
         null,
         1,
@@ -10,12 +9,9 @@
         null,
         1,
         30,
-        30,
-        null,
         null,
         null,
         1,
-        null,
         null,
         1651294,
         1651294,
@@ -24,17 +20,12 @@
         null,
         15800976,
         null,
-        null,
-        null,
-        null,
         15800962,
         1651294,
         1651294,
         null,
         null,
-        null,
         15800962,
-        null,
         null,
         10489998,
         10613,
@@ -44,10 +35,8 @@
         5310964,
         null,
         null,
-        null,
         15800962,
         14149668,
-        null,
         null,
         null,
         null,
@@ -64,10 +53,8 @@
         1,
         null,
         4,
-        null,
         4,
         14,
-        null,
         null,
         4,
         null,
@@ -140,7 +127,7 @@
         null,
         null
       ],
-      "/Users/brettrivers/turing/1module/completeme/lib/node.rb": [
+      "/Users/brettrivers/turing/1module/complete_me/lib/node.rb": [
         1,
         1,
         1,
@@ -152,7 +139,7 @@
         null,
         null
       ],
-      "/Users/brettrivers/turing/1module/completeme/test/node_test.rb": [
+      "/Users/brettrivers/turing/1module/complete_me/test/node_test.rb": [
         null,
         1,
         1,
@@ -187,6 +174,6 @@
         null
       ]
     },
-    "timestamp": 1472593139
+    "timestamp": 1472675912
   }
 }

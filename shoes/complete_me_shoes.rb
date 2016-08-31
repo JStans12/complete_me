@@ -6,63 +6,59 @@ dictionary = File.read("/usr/share/dict/words")
 trie.populate(dictionary)
 
 Shoes.app do
-  background "#add8e6"
-  border("#BE8",
-         strokewidth: 6)
+
+  @back = background('panda.jpg')
+  @back.style :width => 600
+  @back.style :height => 500
 
   stack(margin: 10) do
-    @load_dictionary = button("Load dictionary") do
+    button("Load dictionary") do
       trie.populate(dictionary)
     end
 
-    #insert
-    insert_phrase = para "Enter word to insert: "
+    insert_phrase = para("Enter word to insert: ", :stroke => "#730099", :weight => "bold")
     flow do
-      @insert_word_line = edit_line
-      @insert_button = button("Insert") do
-        trie.insert(@insert_word_line.text)
+      insert_word_line = edit_line
+      button("Insert") do
+        trie.insert(insert_word_line.text)
       end
     end
 
-    #suggest
-    suggest_phrase = para "Enter word phrase: "
+    para("Enter word phrase: ", :stroke => "#0000ff", :weight => "bold")
     flow do
-      @suggest_phrase_line = edit_line do |e|
-        @copy_box.text = @suggest_phrase_line.text
+      suggest_phrase_line = edit_line do |e|
+        @copy_box.text = suggest_phrase_line.text
       end
 
-      @suggest_button = button("suggest") do
-        suggested_results = trie.suggest(@suggest_phrase_line.text).join(", ")
+      button("suggest") do
+        suggested_results = trie.suggest(suggest_phrase_line.text).join(", ")
         @copy_box.text = suggested_results
       end
     end
 
-    #select
-      #title
-      flow do
-        select_phrase = para("Phrase:")
-        select_word = para("Selected word:")
-      end
-      #edit boxes
-      flow do
-        @select_phrase_line = edit_line :width => 60
-        @select_word_line = edit_line :width => 150
-        #button
-        select_button = button("select") do
-          trie.select(@select_phrase_line.text, @select_word_line.text)
-        end
-      end
-
-    #delete button
-    delete_phrase = para "Enter word to delete:"
     flow do
-      @delete_word_line = edit_line
-      delete_button = button("delete") do
-        trie.delete(@delete_word_line.text)
+      para("Phrase:", :stroke => "#33cc33", :weight => "bold")
+      para("Selected word:", :stroke => "#33cc33", :weight => "bold")
+    end
+
+    flow do
+      select_phrase_line = edit_line :width => 60
+      select_word_line = edit_line :width => 150
+
+      select_button = button("select") do
+        trie.select(select_phrase_line.text, select_word_line.text)
       end
     end
 
-    suggestions = para "Auto-complete suggestions: "
-    @copy_box = para ""
+    para("Enter word to delete:", :stroke => "#e6e600", :weight => "bold")
+    flow do
+      delete_word_line = edit_line
+      button("delete") do
+        trie.delete_word(delete_word_line.text)
+      end
+    end
+
+    para("Auto-complete suggestions: ", :stroke => "#ff6600", :weight => "bold")
+    @copy_box = para("", :stroke => "#F00", :weight => "bold")
   end
 end
