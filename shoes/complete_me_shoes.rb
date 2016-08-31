@@ -20,13 +20,13 @@ Shoes.app do
       end
 
       @suggest_button = button("suggest") do
-        suggested_results = trie.suggest(@suggest_phrase_line.text)
-        suggested_results.each do |word|
-          stack(margin: 10) do
-            para "#{word}"
-          end
-        end
-        #@copy_box.text = ""
+        suggested_results = trie.suggest(@suggest_phrase_line.text).join(", ")
+        # suggested_results.each do |word|
+        #   stack(margin: 10) do
+        #     para "#{word}"
+        #   end
+        # end
+        @copy_box.text = suggested_results
         #@copy_box.text = clicked_results
       end
     end
@@ -52,6 +52,6 @@ Shoes.app do
     end
 
     @phrase2 = para "Auto-complete suggestions: "
-
+    @copy_box = para "Test"
   end
 end

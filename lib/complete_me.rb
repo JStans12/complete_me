@@ -1,5 +1,4 @@
 require_relative 'node.rb'
-require 'pry'
 
 class CompleteMe
   attr_reader :root
