@@ -1,6 +1,6 @@
 ## About
 
-This repository contains the finished CompleteMe project from the Turing School curriculum.
+This repository contains the finished [CompleteMe](https://github.com/turingschool/curriculum/blob/master/source/projects/complete_me.markdown) project from the Turing School curriculum.
 
 ## Purpose
 
