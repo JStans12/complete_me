@@ -2,8 +2,6 @@ require '../lib/complete_me'
 require '../lib/node'
 
 trie = CompleteMe.new
-dictionary = File.read("/usr/share/dict/words")
-trie.populate(dictionary)
 
 Shoes.app do
 
